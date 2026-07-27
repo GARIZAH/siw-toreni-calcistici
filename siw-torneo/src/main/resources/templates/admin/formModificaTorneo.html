@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modifica Torneo</title>
+</head>
+<body>
+
+	<h1>Modifica i dati del torneo</h1>
+
+	<form th:action="@{/admin/tornei/{id}/modifica(id=${torneo.id})}" th:object="${torneo}" method="POST">
+
+		<div th:if="${#fields.hasGlobalErrors()}">
+			<p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color: red;"></p>
+		</div>
+
+		<div>
+			<label>Nome Torneo:</label>
+			<input type="text" th:field="*{nome}" required />
+			<span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" style="color: red;"></span>
+		</div>
+
+		<br />
+
+		<div>
+			<label>Anno Edizione:</label>
+			<input type="number" th:field="*{anno}" min="2000" max="2100" required />
+			<span th:if="${#fields.hasErrors('anno')}" th:errors="*{anno}" style="color: red;"></span>
+		</div>
+
+		<br />
+
+		<div>
+			<label>Descrizione:</label>
+			<textarea th:field="*{descrizione}" rows="4" cols="50" placeholder="Inserisci una descrizione..."></textarea>
+			<span th:if="${#fields.hasErrors('descrizione')}" th:errors="*{descrizione}" style="color: red;"></span>
+		</div>
+
+		<br />
+
+		<div>
+			<button type="submit">Salva Modifiche</button>
+		</div>
+
+	</form>
+
+	<br />
+	<a th:href="@{/tornei/{id}(id=${torneo.id})}">Annulla e torna indietro</a>
+
+</body>
+</html>

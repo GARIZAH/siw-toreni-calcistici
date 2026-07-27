@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title th:text="${squadra.id == null} ? 'Nuova Squadra' : 'Modifica Squadra'"></title>
+</head>
+
+<body>
+	<h1 th:text="${squadra.id == null} ? 'Aggiungi nuova Squadra' : 'Modifica Squadra'"></h1>
+	
+	<form th:action="${squadra.id == null} ? @{/admin/squadre} : @{/admin/squadre/edit/{id}(id=${squadra.id})}" th:object="${squadra}" method="post">
+		
+		<input type="hidden" th:field="*{id}" />
+
+		<div>Nome Squadra:
+			<input type="text" th:field="*{nome}" />
+			<span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+		</div>
+		
+		<div>Anno di Fondazione:
+			<input type="text" th:field="*{annoDiFondazione}" />
+			<span th:if="${#fields.hasErrors('annoDiFondazione')}" th:errors="*{annoDiFondazione}"></span>
+		</div>
+		
+		<div>Città:
+			<input type="text" th:field="*{citta}" />
+			<span th:if="${#fields.hasErrors('citta')}" th:errors="*{citta}"></span>
+		</div>
+		
+		<button type="submit" th:text="${squadra.id == null} ? 'Inserisci Squadra' : 'Salva Modifiche'"></button>
+	</form>
+</body>
+</html>

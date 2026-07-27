@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nuova Squadra</title>
+</head>
+<body>
+
+	<h1>Crea una nuova squadra per il torneo</h1>
+	    
+	<form th:action="@{/admin/squadre/{torneoId}/new(torneoId=${torneoId})}" th:object="${squadra}" method="POST">
+	        <div th:if="${#fields.hasGlobalErrors()}">
+	            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color: red;"></p>
+	        </div>
+
+	        <div>
+	            <label>Nome della Squadra:</label>
+	            <input type="text" th:field="*{nome}" placeholder="Inserisci il nome..." />
+	            <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" style="color: red;"></span>
+	        </div>
+	        
+	        <br/>
+
+	        <div>
+	            <label>Anno di Fondazione:</label>
+	            <input type="number" th:field="*{annoDiFondazione}" placeholder="Es. 2024" />
+	            <span th:if="${#fields.hasErrors('annoDiFondazione')}" th:errors="*{annoDiFondazione}" style="color: red;"></span>
+	        </div>
+	        
+	        <br/>
+
+	        <div>
+	            <label>Città di provenienza:</label>
+	            <input type="text" th:field="*{citta}" placeholder="Inserisci la città..." />
+	            <span th:if="${#fields.hasErrors('citta')}" th:errors="*{citta}" style="color: red;"></span>
+	        </div>
+	        
+	        <br/>
+
+	        <div>
+	            <button type="submit">Salva e Iscrivi la Squadra</button>
+	        </div>
+
+	    </form>
+	    
+	    <br/>
+	    <a th:href="@{/tornei/{id}(id=${torneoId})}">Annulla e torna al torneo</a>
+
+</body>
+</html>

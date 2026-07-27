@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> Torneo</title>
+		<style>
+				body { font-family: 'Segoe UI', sans-serif; margin: 30px; background-color: #f8f9fa; color: #333; }
+				h1 { color: #2c3e50; margin-bottom: 5px; }
+				.meta-info { margin-bottom: 20px; color: #555; }
+				.info-box { background: white; padding: 15px; border-radius: 6px; border: 1px solid #e1e8ed; margin-bottom: 25px; }
+				.menu-links { margin-bottom: 20px; }
+				.menu-links div { margin-bottom: 10px; }
+				.btn-link { display: inline-block; text-decoration: none; color: #2980b9; font-weight: bold; }
+				.btn-link:hover { text-decoration: underline; }
+				.back-link { display: inline-block; margin-top: 15px; color: #7f8c8d; text-decoration: none; }
+				.back-link:hover { color: #333; }
+			</style>
+	</head>
+	<body>
+		<div sec:authorize="hasAuthority('ADMIN')">
+							<strong>ModificaTorneo:</strong>
+							<a th:href="@{/admin/tornei/{id}/modifica(id=${torneo.id})}">✍️ Modifica Torneo</a>
+				</div>
+		<h1 th:text="${torneo.nome}">Nome Torneo</h1>
+			
+			<div class="meta-info">
+				Anno Edizione: <span th:text="${torneo.anno}">2026</span>
+			</div>
+			
+			<div class="info-box">
+				<h3>Descrizione del Torneo</h3>
+				<p th:text="${torneo.descrizione}">Descrizione del torneo non disponibile.</p>
+			</div>
+			
+			<div class="menu-links">
+				<div>
+					<a class="btn-link" th:href="@{'/tornei/' + ${torneo.id} + '/partecipanti'}">🛡️ Visualizza i partecipanti</a>
+				</div>
+				<div>
+					<a class="btn-link" th:href="@{'/tornei/' + ${torneo.id} + '/calendario'}">📅 Visualizza calendario</a>
+				</div>
+				<div>
+					<a class="btn-link" th:href="@{'/tornei/' + ${torneo.id} + '/classifica'}">📊 Visualizza classifica</a>
+				</div>
+				<div>
+					<a class="btn-link" th:href="@{/arbitri}">📊 Visualizza arbitri</a>
+				</div>
+				</div>
+				
+				<hr>
+			<a class="back-link" href="/tornei">⬅️ Torna all'elenco dei tornei</a>
+	</body>
+</html>

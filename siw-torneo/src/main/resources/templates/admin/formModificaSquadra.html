@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Modifica Squadra</title>
+</head>
+<body>
+
+    <h1>Modifica Dati della Squadra</h1>
+    
+    <form th:action="@{/admin/tornei/{tId}/squadre/{sId}/edit(tId=${torneoId}, sId=${squadra.id})}" th:object="${squadra}" method="POST">
+        
+        <input type="hidden" th:field="*{id}" />
+
+        <div>
+            <label>Nome Squadra:</label>
+            <input type="text" th:field="*{nome}" required />
+            <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" style="color:red;"></span>
+        </div>
+        
+        <div>
+            <label>Città:</label>
+            <input type="text" th:field="*{citta}" required />
+            <span th:if="${#fields.hasErrors('citta')}" th:errors="*{citta}" style="color:red;"></span>
+        </div>
+        
+        <div>
+            <label>Anno di Fondazione:</label>
+            <input type="number" th:field="*{annoDiFondazione}" required />
+            <span th:if="${#fields.hasErrors('annoDiFondazione')}" th:errors="*{annoDiFondazione}" style="color:red;"></span>
+        </div>
+        
+        <br />
+        <button type="submit">Salva Modifiche</button>
+    </form>
+    
+    <p><a th:href="@{/tornei/{tId}/squadre/{sId}(tId=${torneoId}, sId=${squadra.id})}">Annulla modifiche</a></p>
+
+</body>
+</html>

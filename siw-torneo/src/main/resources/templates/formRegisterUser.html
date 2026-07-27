@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Registrazione</title>
+</head>
+
+<body>
+	<h1>Registra qui:</h1>
+	<form th:action="@{/register}" th:object="${credentials}" method="post">
+		
+		<div>
+			nome:<input type="text" th:field="*{utente.nome}">
+			<span th:if="${#fields.hasErrors('utente.nome')}" th:errors="*{utente.nome}"></span>
+		</div>
+		<div>
+			cognome:<input type="text" th:field="*{utente.cognome}">
+			<span th:if="${#fields.hasErrors('utente.cognome')}" th:errors="*{utente.cognome}"></span>
+		</div>
+
+		<div>
+			email:<input type="text" th:field="*{utente.email}">
+			<span th:if="${#fields.hasErrors('utente.email')}" th:errors="*{utente.email}"></span>
+		</div>
+		<div>
+			Username:<input type="text" th:field="*{username}">
+			<span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+		</div>
+		<div>
+			Password:<input type="text" th:field="*{password}">
+			<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+		</div>
+		<div>
+				<button type="submit">Registrati</button>
+			</div>
+	</form>
+	
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Nuovo Torneo</title>
+</head>
+
+<body>
+	<h1>Aggiungi nuovo Torneo</h1>
+	<form action="@{/admin/tornei}" th:object=" ${torneo}" method="post">
+		<div>Nome Torneo:
+			<input type="text" th:field="*{nome}" />
+			<span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+		</div>
+		
+		<div>Anno:
+		<input type="text" th:field="*{anno}" />
+		<span th:if="${#fields.hasErrors('anno')}" th:errors="*{anno}"></span>
+		</div>
+		
+		<div>Descrizione:
+		<input type="text" th:field="*{descrizione}" />
+		<span th:if="${#fields.hasErrors('descrizione')}" th:errors="*{descrizione}"></span>
+		</div>
+		<button type="submit">Inserisci Torneo	</button>
+	</form>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Classifica</title>
+		<style>
+		        table { width: 60%; border-collapse: collapse; margin-top: 20px; font-family: sans-serif; }
+		        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+		        th { background-color: #f4f4f4; }
+		        td.sinistro { text-align: left; }
+		        tr:nth-child(even) { background-color: #f9f9f9; }
+		    </style>
+	</head>
+	<body>
+		<h1 th:text="'classifica : ' + ${torneo.nome} ">Classifica Torneo</h1>
+		<table>
+		        <thead>
+		            <tr>
+		                <th>Pos</th>
+		                <th class="sinistro">Squadra</th>
+		                <th>Punti</th>
+		                <th>G</th>
+		                <th>V</th>
+		                <th>N</th>
+		                <th>P</th>
+		            </tr>
+		        </thead>
+		        <tbody>
+		            <tr th:each="riga, iterStat : ${classifica}">
+		                <td th:text="${iterStat.count}">1</td>
+		                <td class="sinistro">
+		                    <a th:href="@{/tornei/{tId}/squadre/{sId}(tId=${torneo.id}, sId=${riga.squadra.id})}" th:text="${riga.squadra.nome}">Nome</a>
+		                </td>
+		                <td th:text="${riga.punti}" style="font-weight: bold;">0</td>
+		                <td th:text="${riga.giocate}">0</td>
+		                <td th:text="${riga.vittorie}">0</td>
+		                <td th:text="${riga.pareggi}">0</td>
+		                <td th:text="${riga.sconfitte}">0</td>
+		            </tr>
+		        </tbody>
+		    </table>
+
+		    <br>
+		    <a th:href="@{'/tornei/' + ${torneo.id}}">Torna al Torneo</a>
+		
+	</body>
+</html>

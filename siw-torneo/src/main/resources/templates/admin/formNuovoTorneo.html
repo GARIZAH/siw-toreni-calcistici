@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Nuovo Torneo</title>
+</head>
+<body>
+
+	<h1>Crea un nuovo Torneo</h1>
+
+	<form th:action="@{/admin/tornei/new}" th:object="${torneo}" method="POST">
+		
+		<div th:if="${#fields.hasGlobalErrors()}">
+			<p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color: red;"></p>
+		</div>
+
+		<div>
+			<label>Nome Torneo:</label>
+			<input type="text" th:field="*{nome}" placeholder="Es: Torneo Estivo, Champions League..." />
+			<span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" style="color: red;"></span>
+		</div>
+		
+		<br/>
+
+		<div>
+			<label>Anno di svolgimento:</label>
+			<input type="number" th:field="*{anno}" placeholder="Es: 2026" />
+			<span th:if="${#fields.hasErrors('anno')}" th:errors="*{anno}" style="color: red;"></span>
+		</div>
+		
+		<br/>
+
+		<div>
+			<label>Descrizione:</label>
+			<textarea th:field="*{descrizione}" placeholder="Breve descrizione del torneo..."></textarea>
+			<span th:if="${#fields.hasErrors('descrizione')}" th:errors="*{descrizione}" style="color: red;"></span>
+		</div>
+		
+		<br/>
+		
+		<div>
+			<button type="submit">Salva Torneo</button>
+		</div>
+
+	</form>
+	
+	<br/>
+	<a th:href="@{/tornei}">Annulla e torna indietro</a>
+
+</body>
+</html>

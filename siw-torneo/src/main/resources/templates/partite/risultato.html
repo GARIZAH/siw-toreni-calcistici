@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Risultato partita</title>
+</head>
+
+<body>
+	<h1>Inserisic risultato</h1>
+	<p>
+		<strong th:text="${partita.squadraHome.nome}"></strong>
+		vs
+		<strong th:text="${partita.squadraAway.nome}"></strong>
+	</p>
+	<form th:action="@{/admin/partite/{id}/risultato(id=${partita.id})}" method="post">
+		<label>Goal casa:
+			<input type="number" name="goalsHome" min="0" th:value="${partita.goalsHome}" required />
+		</label>
+		<label>Goal ospite:
+			<input type="number" name="goalsAway" min="0" th:value="${partita.goalsAway}" required />
+		</label><br />
+		<button type="submit">Salva risultato</button>
+		<a th:href="@{/partite/{id}(id=${partita.id})}">Annulla</a>
+	</form>
+</body>
+
+</html>

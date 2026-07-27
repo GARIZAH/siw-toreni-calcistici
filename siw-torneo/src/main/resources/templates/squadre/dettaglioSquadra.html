@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Dettaglio Squadra</title>
+</head>
+
+<body>
+	<h1 th:text="${squadra.nome}">nome squadra</h1>
+		
+	<div sec:authorize="hasAuthority('ADMIN')" style="margin-bottom: 20px; background-color: #f9f9f9; padding: 10px; border: 1px solid #ddd;">
+		<strong>⚙️ Gestione Squadra:</strong>
+		
+		<a th:href="@{/admin/tornei/{tId}/squadre/{sId}/edit(tId=${torneo.id}, sId=${squadra.id})}">✍️ Modifica Dati Squadra</a>
+		
+		| 
+		
+		<form th:action="@{/admin/tornei/{tId}/rimuovi-squadra/{sId}(tId=${torneo.id}, sId=${squadra.id})}" method="POST" style="display: inline;"
+		      onsubmit="return confirm('ATTENZIONE: Eliminando la squadra eliminerai anche tutti i suoi giocatori! Vuoi procedere?');">
+			<button type="submit" style="color: red; background: none; border: none; cursor: pointer; padding: 0; text-decoration: underline; font-family: inherit; font-size: inherit;">
+				❌ Elimina Intera Squadra
+			</button>
+		</form>
+	</div>
+
+	<h2>Anno di Fondazione:</h2>
+	<p th:text="${squadra.annoDiFondazione}"></p>
+	
+	<h2>Città:</h2>
+	<p th:text="${squadra.citta}"></p>
+	
+	<h2>Componenti della squadra:</h2>
+	<div>
+		<ul>
+			<li th:each="giocatore: ${squadra.giocatori}" style="margin-bottom: 15px;">
+				<span th:text="${giocatore.nome}">Nome giocatore</span> 
+				<span th:text="${giocatore.cognome}">Cognome Giocatore</span>
+				
+				<ul>
+					<li>
+						Nato il: <span th:text="${giocatore.dataDiNascita}">Data di nascita</span> - 
+						Ruolo: <span th:text="${giocatore.ruolo}">ruolo</span>
+					</li>
+				</ul>
+
+				<div sec:authorize="hasAuthority('ADMIN')" style="margin-top: 5px; margin-left: 20px;">
+					<a th:href="@{'/admin/giocatori/' + ${giocatore.id} + '/edit'}">✍️ Modifica</a>
+					
+					| 
+					
+					<a th:href="@{'/admin/giocatori/' + ${giocatore.id} + '/delete'}" 
+					   onclick="return confirm('Sei sicuro di voler eliminare questo giocatore?');" 
+					   style="color: red;">
+					   ❌ Elimina
+					</a>
+				</div>
+			</li>
+		</ul>
+	</div>
+	
+	<div sec:authorize="hasAuthority('ADMIN')" style="margin-top: 25px; margin-bottom: 25px;">
+		<a th:href="@{'/admin/squadre/' + ${squadra.id} + '/giocatori/new'}">
+			<button type="button" style="padding: 8px 15px; cursor: pointer;">➕ Aggiungi Nuovo Giocatore a questa Squadra</button>
+		</a>
+	</div>
+	
+	<a th:href="@{/tornei/{tId}(tId=${squadra.torneos[0].id})}">🔙 Torna indietro alla lista</a>
+	
+</body>
+
+</html>

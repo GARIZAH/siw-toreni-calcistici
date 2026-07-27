@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Elenco Arbitri</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; margin: 30px; background-color: #f8f9fa; color: #333; }
+        h1 { color: #2c3e50; margin-bottom: 20px; }
+        table { width: 60%; border-collapse: collapse; margin-top: 20px; background: white; }
+        th, td { border: 1px solid #e1e8ed; padding: 12px; text-align: left; }
+        th { background-color: #f4f4f4; color: #2c3e50; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        .back-link { display: inline-block; margin-top: 20px; color: #7f8c8d; text-decoration: none; font-weight: bold; }
+        .back-link:hover { color: #333; }
+    </style>
+</head>
+<body>
+
+    <h1>👔 Elenco Arbitri della Federazione</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Cognome</th>
+                <th>Nome</th>
+                <th>Codice Arbitrale</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="arbitro : ${arbitri}">
+                <td th:text="${arbitro.cognome}">Cognome</td>
+                <td th:text="${arbitro.nome}">Nome</td>
+                <td th:text="${arbitro.codiceArbitrale}" style="font-family: monospace; font-weight: bold;">ARB-000</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="back-link" th:href="@{/tornei}">⬅️ Torna all'elenco dei tornei</a>
+
+</body>
+</html>

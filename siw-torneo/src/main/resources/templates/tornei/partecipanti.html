@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title> Squadre partecipanti</title>
+	<style>
+	        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 30px; background-color: #f7f9fa; color: #333; }
+	        h1 { color: #2c3e50; border-bottom: 2px solid #34495e; padding-bottom: 10px; }
+	        .squadre-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
+	        .squadra-card { background: white; border: 1px solid #e1e8ed; border-radius: 8px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+	        .squadra-nome { margin-top: 0; color: #2980b9; font-size: 1.3em; text-decoration: none; display: inline-block; }
+	        .squadra-nome:hover { text-decoration: underline; }
+	        .info-row { margin: 6px 0; font-size: 0.9em; }
+	        .info-label { font-weight: bold; color: #7f8c8d; }
+	        .back-link { display: inline-block; margin-top: 25px; color: #34495e; text-decoration: none; font-weight: bold; }
+	        .back-link:hover { text-decoration: underline; }
+	    </style>
+</head>
+
+<body>
+	<div sec:authorize="hasAuthority('ADMIN')">
+	    <strong>⚙️ Gestione Admin:</strong>
+	    <a th:href="@{/admin/squadre/{id}/new(id=${torneo.id})}">✍️ Aggiungi Squadra a questo torneo</a>
+	</div>
+	
+		<h1>Squadre</h1>
+		<div>
+			<ul>
+				<li th:each="squadra : ${torneo.squadre}">
+					<a th:href="@{/tornei/{tId}/squadre/{sId}(tId=${torneo.id}, sId=${squadra.id})}" th:text="${squadra.nome}">nome</a>
+				
+					
+				</li>
+			</ul>
+		</div>
+		<a th:href="@{'/tornei/'+${torneo.id	}}">Torna indietro</a>
+		
+			
+</body>
+
+</html>

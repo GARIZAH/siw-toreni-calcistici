@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dettaglio Partita</title>
+</head>
+<body>
+	<h1 th:text="${partita.squadraHome.nome} + ' VS ' + ${partita.squadraAway.nome}"></h1>
+	<p th:text="'Luogo: ' + ${partita.luogo}"></p>
+	<p th:text="'Risultato: ' + ${partita.goalsHome} + ' - ' + ${partita.goalsAway}"></p>
+	
+	<h3>Commenti degli utenti</h3>
+
+	<p th:if="${#lists.isEmpty(partita.commenti)}">Non ci sono ancora commenti per questa partita.</p>
+
+	<div th:each="commento : ${partita.commenti}">
+			<p>
+				<strong th:text="${commento.utente.credentials.username}">Nome</strong>:
+				
+				<span th:unless="${idCommentoInModifica != null and idCommentoInModifica.equals(commento.id)}" 
+				      th:text="${commento.testo}">Testo del commento</span>
+				
+				<form th:if="${idCommentoInModifica != null and idCommentoInModifica.equals(commento.id)}"
+				      th:action="@{/registrato/commenti/edit/{id}(id=${commento.id})}" method="post" style="display:inline;">
+					<input type="text" name="testo" th:value="${commento.testo}" required />
+					<button type="submit">Salva</button>
+					<a th:href="@{/partite/{id}(id=${partita.id})}">Annulla</a>
+				</form>
+				
+				<span th:if="${utenteLoggato != null and utenteLoggato.id.equals(commento.utente.id) and (idCommentoInModifica == null or !idCommentoInModifica.equals(commento.id))}">
+					<a th:href="@{/partite/{pId}(pId=${partita.id}, editCommentoId=${commento.id})}">Modifica</a>
+				</span>
+			</p>
+		</div>
+
+	<br>
+	<h4>Aggiungi un commento:</h4>
+	<form th:action="@{/registrato/partite/{partitaId}/commenti(partitaId=${partita.id})}" method="post">
+		<textarea name="testo" placeholder="Scrivi qui il tuo commento..." required></textarea>
+		<br>
+		<button type="submit">Invia Commento</button>
+	</form>
+
+</body>
+</html>

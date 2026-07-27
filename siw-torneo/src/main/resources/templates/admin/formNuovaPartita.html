@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nuova Partita</title>
+</head>
+<body>
+	<h1>Organizza una nuova partita per il torneo: <span th:text="${torneo.nome}">Nome Torneo</span></h1>
+	
+	<div th:if="${erroreSquadre}" style="background-color: #ffdde0; border: 1px solid red; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+	    <p th:text="${erroreSquadre}" style="color: red; font-weight: bold; margin: 0;"></p>
+	</div>
+	
+	<form th:action="@{/admin/tornei/{tId}/partite/new(tId=${torneo.id})}" th:object="${partita}" method="POST">
+
+		<div th:if="${#fields.hasGlobalErrors()}">
+			<p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color: red"></p>
+		</div>
+
+		<div>
+			<label>Squadra in Casa:</label>
+			<select name="squadraHome" required>
+				<option value="">-- Seleziona Squadra Casa --</option>
+				<option th:each="squadra : ${torneo.squadre}" th:value="${squadra.id}" th:text="${squadra.nome}">
+				</option>
+			</select>
+		</div>
+
+		<br />
+
+		<div>
+			<label>Squadra Ospite:</label>
+			<select name="squadraAway" required>
+				<option value="">-- Seleziona Squadra Fuori --</option>
+				<option th:each="squadra : ${torneo.squadre}" th:value="${squadra.id}" th:text="${squadra.nome}">
+				</option>
+			</select>
+		</div>
+
+		<br />
+		
+		<div>
+			<label>Arbitro della partita:</label>
+			<select name="arbitro">
+				<option value="">-- Nessun Arbitro / Seleziona in seguito --</option>
+				<option th:each="arb : ${arbitri}" th:value="${arb.id}" th:text="${arb.nome} + ' ' + ${arb.cognome}">
+				</option>
+			</select>
+		</div>
+
+		<br />
+		
+		<div>
+			<label>Gol Squadra Casa:</label>
+			<input type="number" th:field="*{goalsHome}" min="0" placeholder="0" />
+			<span th:if="${#fields.hasErrors('goalsHome')}" th:errors="*{goalsHome}" style="color: red;"></span>
+			
+			<label style="margin-left: 20px;">Gol Squadra Ospite:</label>
+			<input type="number" th:field="*{goalsAway}" min="0" placeholder="0" />
+			<span th:if="${#fields.hasErrors('goalsAway')}" th:errors="*{goalsAway}" style="color: red;"></span>
+		</div>
+
+		<br />
+
+		<div>
+			<label>Data e Ora della partita:</label>
+			<input type="datetime-local" th:field="*{dataOra}" required />
+			<span th:if="${#fields.hasErrors('dataOra')}" th:errors="*{dataOra}" style="color: red;"></span>
+		</div>	
+
+		<br />
+
+		<div>
+			<label>Luogo / Stadio:</label>
+			<input type="text" th:field="*{luogo}" placeholder="Es: Campo Roma, Stadio Olimpico..." required />
+			<span th:if="${#fields.hasErrors('luogo')}" th:errors="*{luogo}" style="color: red;"></span>
+		</div>
+
+		<br />
+
+		<div>
+			<button type="submit">Inserisci Partita nel Calendario</button>
+		</div>
+
+	</form>
+
+	<br />
+	<a th:href="@{/tornei/{id}/calendario(id=${torneo.id})}">Annulla e torna al calendario</a>
+	
+</body>
+</html>

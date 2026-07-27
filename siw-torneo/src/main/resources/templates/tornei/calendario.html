@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Calendario partite</title>
+	<style>
+			body { font-family: 'Segoe UI', sans-serif; margin: 30px; background-color: #f8f9fa; color: #333; }
+			h1 { color: #2c3e50; border-bottom: 2px solid #34495e; padding-bottom: 10px; }
+			ul { list-style: none; padding: 0; margin-top: 20px; }
+			li { padding: 15px; border: 1px solid #e1e8ed; border-radius: 6px; background: white; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+			.match-info { display: flex; align-items: center; flex-wrap: wrap; gap: 15px; }
+			.data-ora { color: #666; font-size: 0.9em; font-weight: 500; background: #eef2f5; padding: 4px 8px; border-radius: 4px; }
+			.match { font-weight: bold; color: #2c3e50; text-decoration: none; font-size: 1.1em; }
+			.match:hover { color: #2980b9; text-decoration: underline; }
+			
+			/* Stili per i vari stati del risultato */
+			.risultato { font-weight: bold; color: #27ae60; background: #e8f8f5; padding: 4px 10px; border-radius: 4px; font-size: 1em; margin: 0 10px; }
+			.stato-info { font-style: italic; padding: 4px 10px; border-radius: 4px; font-size: 0.9em; margin: 0 10px; font-weight: normal; }
+			.stato-scheduled { color: #7f8c8d; background: #f2f4f4; }
+			.stato-canceled { color: #c0392b; background: #f9ebea; text-decoration: line-through; }
+			
+			.luogo { color: #888; font-style: italic; }
+			.arbitro { color: #34495e; font-size: 0.9em; background: #fdf2e9; border: 1px solid #fbe7d5; padding: 3px 8px; border-radius: 4px; }
+			.btn-delete { background-color: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.85em; transition: background 0.2s; }
+			.btn-delete:hover { background-color: #c0392b; }
+			.back-link { display: inline-block; margin-top: 20px; color: #7f8c8d; text-decoration: none; font-weight: bold; }
+			.back-link:hover { color: #333; }
+		</style>
+</head>
+
+<body>
+	<h1 th:text="'Calendario Partite : ' + ${torneo.nome}"> Calendario Partite</h1>
+	<div style="margin: 15px 0;">
+	    <a th:href="@{http://localhost:5173/(id=${torneo.id})}" 
+	       style="background-color: #20232a; color: #61dafb; padding: 8px 15px; border-radius: 4px; text-decoration: none; font-weight: bold; display: inline-block;">
+	       ⚛️ Passa alla visualizzazione React con filtri
+	    </a>
+	</div>
+	<div sec:authorize="hasAuthority('ADMIN')" style="margin-bottom: 20px;">
+	    <strong>⚙️ Gestione Admin:</strong>
+	    <a th:href="@{/admin/tornei/{id}/partite/new(id=${torneo.id})}" style="color: #2980b9; font-weight: bold; text-decoration: none;">✍️ Aggiungi Nuova Partita</a>
+	</div>
+
+	<ul>
+		<li th:each="partita : ${torneo.partite}">
+			
+			<div class="match-info">
+				<span class="data-ora" th:text="${#temporals.format(partita.dataOra, 'dd/MM/yyyy HH:mm')}">01/01/2026 20:30</span>
+				
+				<a class="match" th:href="@{/partite/{id}(id=${partita.id})}">
+					<span th:text="${partita.squadraHome.nome}">Squadra Casa</span> 
+					
+					<span class="risultato" th:if="${partita.stato.name() == 'PLAYED'}" 
+					      th:text="| ${partita.goalsHome} - ${partita.goalsAway} |"> 0 - 0 </span>
+					
+					<span class="stato-info stato-scheduled" th:if="${partita.stato.name() == 'SCHEDULED'}"> Da giocare </span>
+					
+					<span class="stato-info stato-canceled" th:if="${partita.stato.name() == 'CANCELED'}"> Annullata </span>
+					
+					<span th:text="${partita.squadraAway.nome}">Squadra Fuori</span>
+				</a>
+				
+				<span class="luogo" th:text="'📍 (' + ${partita.luogo} + ')'">(Campo Roma)</span>
+				
+				<span class="arbitro" th:if="${partita.arbitro != null}" 
+				      th:text="'👔 Arbitro: ' + ${partita.arbitro.cognome} + ' ' + ${partita.arbitro.nome}">👔 Arbitro: Collina Pierluigi</span>
+			</div>
+			
+			<form sec:authorize="hasAuthority('ADMIN')" th:action="@{/admin/partite/{id}/elimina(id=${partita.id})}" method="POST" style="display:inline;">
+				<button type="submit" class="btn-delete">❌ Elimina</button>
+			</form>
+			
+		</li>
+	</ul>
+	
+	<a class="back-link" th:href="@{'/tornei/'+${torneo.id}}">⬅️ Torna al torneo</a>
+</body>
+
+</html>

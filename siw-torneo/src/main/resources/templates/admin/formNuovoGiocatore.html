@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Nuovo Giocatore</title>
+</head>
+<body>
+
+    <h1>Tessera Nuovo Giocatore per la squadra: <span th:text="${squadra.nome}">Nome Squadra</span></h1>
+    
+    <form th:action="@{'/admin/squadre/' + ${squadra.id} + '/giocatori/new'}" th:object="${giocatore}" method="POST">
+        
+        <div>
+            <label>Nome:</label>
+            <input type="text" th:field="*{nome}" required />
+            <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" style="color:red;"></span>
+        </div>
+        
+        <div>
+            <label>Cognome:</label>
+            <input type="text" th:field="*{cognome}" required />
+            <span th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}" style="color:red;"></span>
+        </div>
+        
+        <div>
+            <label>Data di Nascita:</label>
+            <input type="date" th:field="*{dataDiNascita}" required />
+            <span th:if="${#fields.hasErrors('dataDiNascita')}" th:errors="*{dataDiNascita}" style="color:red;"></span>
+        </div>
+        
+        <div>
+            <label>Altezza (in metri, es 1.85):</label>
+            <input type="number" step="0.01" th:field="*{altezza}" required />
+            <span th:if="${#fields.hasErrors('altezza')}" th:errors="*{altezza}" style="color:red;"></span>
+        </div>
+        
+        <div>
+            <label>Ruolo:</label>
+            <select th:field="*{ruolo}" required>
+                <option value="">-- Seleziona Ruolo --</option>
+                <option th:each="r : ${ruoli}" th:value="${r}" th:text="${r}"></option>
+            </select>
+            <span th:if="${#fields.hasErrors('ruolo')}" th:errors="*{ruolo}" style="color:red;"></span>
+        </div>
+        
+        <br />
+        <button type="submit">Aggiungi Giocatore</button>
+    </form>
+    
+    <p><a th:href="@{'/tornei/'+ ${torneo.id} + '/squadre/' + ${squadra.id}}">Annulla e torna alla squadra</a></p>
+					
+</body>
+</html>

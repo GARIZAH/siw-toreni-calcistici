@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <title>Home - Tornei SIW</title>
+</head>
+<body>
+	<div style="background: #f1f3f5; padding: 10px 20px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+	    
+	    <div sec:authorize="isAnonymous()">
+	        <span>👋 Benvenuto! Non sei ancora loggato.</span>
+	        <a th:href="@{/login}" style="margin-left: 15px; font-weight: bold; color: #2980b9; text-decoration: none;">🔐 Accedi</a>
+	    </div>
+
+	    <div sec:authorize="isAuthenticated()" style="display: flex; align-items: center; gap: 15px; width: 100%;">
+	        <span>
+	            👤 Loggato come: <strong sec:authentication="name" style="color: #2c3e50;">Username</strong> 
+	            (<span sec:authentication="principal.authorities" style="color: #7f8c8d; font-size: 0.9em;">RUOLO</span>)
+	        </span>
+	        
+	        <form th:action="@{/logout}" method="POST" style="margin-left: auto;">
+	            <button type="submit" style="background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: background 0.2s;">
+	                🚪 Esci (Logout)
+	            </button>
+	        </form>
+	    </div>
+	    
+	</div>
+
+    <h1>Benvenuto nel Sistema Tornei</h1>
+
+    <div>
+        <h2>Esplora</h2>
+        <a th:href="@{/tornei}">🏆 Guarda i Tornei</a> | 
+        
+    </div>
+
+    <br /><br />
+
+    <div sec:authorize="hasAuthority('ADMIN')" style="padding: 15px; border: 2px dashed red; background-color: #fff5f5;">
+        <h2>🛠️ Pannello di Controllo Amministratore</h2>
+        <p>Opzioni di gestione protette:</p>
+        <ul>
+            <li><a th:href="@{/admin/tornei/new}">➕ Inserisci un nuovo Torneo</a></li>
+            <li><a th:href="@{/admin/squadre/new}">➕ Inserisci una nuova Squadra</a></li>
+        </ul>
+    </div>
+
+</body>
+</html>
