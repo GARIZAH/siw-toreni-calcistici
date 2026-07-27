@@ -28,19 +28,19 @@ public class Torneo {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
-	@NotBlank(message = "Il nome è obbligatorio")
-    @Size(min = 2, max = 100, message = "Il nome deve avere tra 2 e 100 caratteri")
+	@NotBlank
+    @Size(min = 2, max = 100)
     @Column(nullable = false)
     private String nome;
  
-    @NotNull(message = "L'anno è obbligatorio")
-    @Min(value = 1900, message = "Anno non valido")
-	@Max(value = 2600, message = "Anno non valido")
+    @NotNull
+    @Min(value = 1900)
+	@Max(value = 2030)
     @Column(nullable = false)
     private Integer anno;
  
-    @Size(max = 1000, message = "La descrizione non può superare 1000 caratteri")
-    @Column(length = 1000)
+    @Size(max = 500)
+    @Column(length = 500)
     private String descrizione;
  
     // Relazione: una squadra partecipa a uno o più tornei

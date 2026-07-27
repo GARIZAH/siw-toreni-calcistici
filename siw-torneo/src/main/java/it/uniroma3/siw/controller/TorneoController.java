@@ -113,13 +113,17 @@ public class TorneoController {
 	}
 	@PostMapping("/admin/tornei/{id}/modifica")
 	public String update(@PathVariable("id") Long id, 
-						@Valid @ModelAttribute("torneo") Torneo torneo, BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			return "admin/formModificaTorneo";
-		}
-		torneo.setId(id); 
-		this.torneoService.save(torneo);
-		return "redirect:/tornei/"+id ;
+	                      @Valid @ModelAttribute("torneo") Torneo torneoForm, BindingResult bindingResult) {
+	    if (bindingResult.hasErrors()) {
+	        return "admin/formModificaTorneo";
+	    }
+	    Torneo torneoEsistente = this.torneoService.findById(id);
+	    torneoEsistente.setNome(torneoForm.getNome());
+	    torneoEsistente.setAnno(torneoForm.getAnno());
+	    torneoEsistente.setDescrizione(torneoForm.getDescrizione());
+	    // NON tocchiamo squadre/partite: restano quelle già caricate da JPA
+	    this.torneoService.save(torneoEsistente);
+	    return "redirect:/tornei/" + id;
 	}
 	
 	@GetMapping("/admin/tornei/new")

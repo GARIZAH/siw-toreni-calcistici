@@ -31,6 +31,7 @@ public AuthenticationController(CredentialsService credentialsService,UtenteServ
 		model.addAttribute("credentials",new Credentials());
 		return "formRegisterUser";
 	}
+	
 	@GetMapping("/login")
 	public String showLoginForm(Model model) {
 		return "formLogin";
@@ -44,7 +45,17 @@ public AuthenticationController(CredentialsService credentialsService,UtenteServ
 	             				BindingResult credentialsBindingResult,
 	             				Model model) {
 
-	    // Se ci sono errori nei form, ricarica la pagina di registrazione
+	    // Username già in uso
+	    if (credentials.getUsername() != null && this.credentialsService.existsByUsername(credentials.getUsername())) {
+	        credentialsBindingResult.rejectValue("username", "username.duplicate", "Username già in uso");
+	    }
+
+	    // Email già in uso
+	    if (credentials.getUtente() != null && credentials.getUtente().getEmail() != null
+	            && this.userService.existsByEmail(credentials.getUtente().getEmail())) {
+	        credentialsBindingResult.rejectValue("utente.email", "email.duplicate", "Email già in uso");
+	    }
+
 	    if (credentialsBindingResult.hasErrors()) {
 	        return "formRegisterUser";
 	    }

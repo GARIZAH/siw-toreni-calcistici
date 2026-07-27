@@ -22,17 +22,17 @@ public class Arbitro {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
-	@NotBlank(message = "Il nome è obbligatorio")
+	@NotBlank
     @Size(min = 2, max = 50)
     @Column(nullable = false)
     private String nome;
  
-    @NotBlank(message = "Il cognome è obbligatorio")
+    @NotBlank
     @Size(min = 2, max = 50)
     @Column(nullable = false)
     private String cognome;
  
-    @NotBlank(message = "Il codice arbitrale è obbligatorio")
+    @NotBlank
     @Column(nullable = false, unique = true)
 	private String codiceArbitrale;
     @JsonIgnore 

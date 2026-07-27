@@ -28,17 +28,17 @@ public class Squadra {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
-	 @NotBlank(message = "Il nome è obbligatorio")
+	 @NotBlank
 	    @Size(min = 2, max = 100)
 	    @Column(nullable = false)
 	    private String nome;
 	 
-	    @NotNull(message = "L'anno di fondazione è obbligatorio")
-	    @Min(value = 1800, message = "Anno di fondazione non valido")
+	    @NotNull
+	    @Min(value = 1800)
 	    @Column(nullable = false)
 	    private Integer annoDiFondazione;
 	 
-	    @NotBlank(message = "La città è obbligatoria")
+	    @NotBlank
 	    @Size(min = 2, max = 100)
 	    @Column(nullable = false)
 	    private String citta;

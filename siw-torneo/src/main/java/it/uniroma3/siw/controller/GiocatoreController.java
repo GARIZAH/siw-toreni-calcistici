@@ -33,30 +33,20 @@ public class GiocatoreController {
 		return"admin/formNuovoGiocatore";
 	}
 	@PostMapping("/admin/squadre/{id}/giocatori/new")
-	public String salvaGiocatore(@PathVariable("id")Long id,
-									@Valid@ModelAttribute("giocatore")Giocatore giocatore,
-									BindingResult bindingResult,Model model) {
-		if (bindingResult.hasErrors()) {
-	        model.addAttribute("squadraId", id);
+	public String salvaGiocatore(@PathVariable("id") Long id,
+	                              @Valid @ModelAttribute("giocatore") Giocatore giocatore,
+	                              BindingResult bindingResult, Model model) {
+	    Squadra squadra = this.squadraService.findById(id);
+	    if (bindingResult.hasErrors()) {
+	        model.addAttribute("squadra", squadra);              // ✅ aggiunto
+	        model.addAttribute("torneo", squadra.getTorneos().get(0)); // ✅ aggiunto
+	        model.addAttribute("ruoli", GiocatoreRuolo.values()); // ✅ serve anche questo per la <select>
 	        return "admin/formNuovoGiocatore";
 	    }
-
-	    // 1. IMPORTANTE: Forza l'ID del giocatore a null per essere sicuro che sia una NUOVA creazione
 	    giocatore.setId(null);
-
-	    // 2. Recuperiamo la squadra dal database usando l'ID passato nell'URL
-	    Squadra squadra = this.squadraService.findById(id);
-	    
-	    if (squadra != null) {
-	        // 3. Colleghiamo il giocatore alla squadra
-	        giocatore.setSquadra(squadra);
-	        
-	        // 4. Salva il giocatore nel database (Genererà un ID tutto suo, es. 153, 154...)
-	        this.giocatoreService.save(giocatore);
-	    }
+	    giocatore.setSquadra(squadra);
+	    this.giocatoreService.save(giocatore);
 	    Long torneoId = squadra.getTorneos().get(0).getId();
-	    
-	    // 6. Ritorna al dettaglio della squadra con l'URL corretto del torneo
 	    return "redirect:/tornei/" + torneoId + "/squadre/" + id;
 	}
 	
@@ -75,6 +65,7 @@ public class GiocatoreController {
 			BindingResult bindingResult) {
 		Giocatore giocatoreOriginale=this.giocatoreService.findById(id);
 		if (bindingResult.hasErrors()) {
+			giocatoreModificato.setId(id); // <-- FIX: senza questo l'id è null e il template va in errore
 	        model.addAttribute("squadra", giocatoreOriginale.getSquadra());
 	        model.addAttribute("ruoli", GiocatoreRuolo.values());
 	        return "admin/formModificaGiocatore";

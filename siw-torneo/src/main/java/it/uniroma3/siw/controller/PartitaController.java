@@ -6,6 +6,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,12 +17,14 @@ import it.uniroma3.siw.model.Arbitro;
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.Partita;
 import it.uniroma3.siw.model.Squadra;
+import it.uniroma3.siw.model.StatoPartita;
 import it.uniroma3.siw.model.Torneo;
 import it.uniroma3.siw.service.ArbitroService;
 import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.PartitaService;
 import it.uniroma3.siw.service.SquadraService;
 import it.uniroma3.siw.service.TorneoService;
+import jakarta.validation.Valid;
 
 @Controller
 public class PartitaController {
@@ -71,10 +74,20 @@ public class PartitaController {
 	}
 	@PostMapping("/admin/tornei/{id}/partite/new")
 	public String salvaPartita(@PathVariable("id")Long torneoId,
-								@ModelAttribute("partita") Partita partita,
+								@Valid@ModelAttribute("partita") Partita partita,
+								BindingResult bindingResult,
 								@RequestParam("squadraHome") Long squadraHome,
 								@RequestParam("squadraAway") Long squadraAway,
 								@RequestParam(value="arbitro", required=false)Long arbitro,Model model){
+		
+		
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("torneo", this.torneoService.findById(torneoId));
+			model.addAttribute("squadre", this.squadraService.findALL());
+			model.addAttribute("arbitri", this.arbitroService.findAll());
+			return "admin/formNuovaPartita";
+		}
+		
 		if (squadraHome.equals(squadraAway)) {
 			model.addAttribute("erroreSquadre", "Errore: Una squadra non può giocare contro se stessa!");
 			model.addAttribute("torneo", this.torneoService.findById(torneoId));
@@ -92,6 +105,9 @@ public class PartitaController {
 		
         if (arbitro != null) {
             partita.setArbitro(this.arbitroService.findById(arbitro));
+        }
+        if (partita.getGoalsHome() != null && partita.getGoalsAway() != null) {
+            partita.setStato(StatoPartita.PLAYED);
         }
         this.partitaService.save(partita);
         return "redirect:/tornei/" + torneoId + "/calendario";

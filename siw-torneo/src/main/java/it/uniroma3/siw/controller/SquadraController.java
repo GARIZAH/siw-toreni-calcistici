@@ -27,12 +27,7 @@ public class SquadraController {
         this.torneoService=torneoService;
     }
 	
-	@GetMapping("/squadre/{id}")
-	public String dettaglioSquadra(@PathVariable("id")Long id, Model model) {
-		Squadra squadra=this.squadraService.findById(id);
-		model.addAttribute("squadra", squadra);
-		return "squadre/dettaglioSquadra.html";
-	}
+
 	@GetMapping("/tornei/{torneoId}/squadre/{squadraId}")
 	public String getDettaglioSquadraDaTorneo(@PathVariable("torneoId") Long torneoId, 
 	                                          @PathVariable("squadraId") Long squadraId, 
@@ -48,6 +43,12 @@ public class SquadraController {
 	    // 3. Ritorniamo la pagina dei dettagli che andava in crash
 	    return "squadre/dettaglioSquadra";
 	}	
+	@GetMapping("/admin/squadre/{torneoId}/new")
+	public String formNuovaSquadra(@PathVariable("torneoId") Long torneoId, Model model) {
+	    model.addAttribute("squadra", new Squadra());
+	    model.addAttribute("torneoId", torneoId);
+	    return "admin/formNuovaSquadra";
+	}
 	@PostMapping("/admin/squadre/{torneoId}/new")
 	public String save(@PathVariable("torneoId") Long torneoId,
 						@Valid @ModelAttribute("squadra") Squadra squadra, BindingResult bindingResult,
@@ -82,9 +83,10 @@ public class SquadraController {
 	public String aggiornaSquadra(@PathVariable("torneoId") Long torneoId,
 	                              @PathVariable("squadraId") Long squadraId,
 	                              @Valid @ModelAttribute("squadra") Squadra squadra, 
-	                              BindingResult bindingResult) {
+	                              BindingResult bindingResult, Model model) {
 	    
 	    if (bindingResult.hasErrors()) {
+	    	 model.addAttribute("torneoId", torneoId);
 	        return "admin/formModificaSquadra";
 	    }
 	    

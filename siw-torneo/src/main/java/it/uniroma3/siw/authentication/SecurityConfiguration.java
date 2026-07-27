@@ -44,9 +44,7 @@ protected SecurityFilterChain configure(final HttpSecurity httpSecurity) throws 
 	    	authorize.requestMatchers("/rest/**").permitAll();
 	    	  authorize.requestMatchers(HttpMethod.GET, "/", "/index", "/register", "/css/**", "/images/**", "/favicon.ico","/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll();
 	    	
-	    	  /* ← AGGIUNGI QUESTE DUE RIGHE
-	    	    authorize.requestMatchers(HttpMethod.GET, "/movies/**").permitAll();
-	    	    authorize.requestMatchers(HttpMethod.GET, "/artists/**").permitAll();*/
+	    	
 	    	  authorize.requestMatchers("/css/**", "/js/**", "/images/**").permitAll();
 	    	  authorize.requestMatchers("/", "/tornei", "/tornei/**", "/squadre/**").permitAll();
 	    	  authorize.requestMatchers(HttpMethod.POST, "/register", "/login").permitAll();

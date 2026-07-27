@@ -44,26 +44,9 @@ public class CommentoController {
 	        return "redirect:/partite/" + partitaId;
 	    }
 
-	    // --- 2. GET MODIFICA COMMENTO (Mostra il form di modifica) ---
-	    @GetMapping("/registrato/commenti/edit/{id}")
-	    public String formModificaCommento(@PathVariable("id") Long id, 
-	                                       Model model,
-	                                       @AuthenticationPrincipal UserDetails userDetails) {
-	        
-	        Commento commento = this.commentoService.findById(id);
-	        Credentials credentials = this.credentialsService.getCredentials(userDetails.getUsername());
+	   
 
-	        // CONTROLLO DI SICUREZZA FONDAMENTALE RICHIESTO DAL PDF:
-	        // Se l'utente loggato NON è il proprietario del commento, gli vietiamo la modifica
-	       
-	        if (!commento.getUtente().getId().equals(credentials.getUtente().getId())) {
-	            return "redirect:/partite/" + commento.getPartita().getId() + "?errore=non_autorizzato";
-	        }
-	        model.addAttribute("commento", commento);
-	        return "commenti/formModificaCommento"; // Pagina HTML con il form di modifica
-	    }
-
-	    // --- 3. POST MODIFICA COMMENTO (Salva la modifica) ---
+	    // POST MODIFICA PROPRIO COMMENTO 
 	    @PostMapping("/registrato/commenti/edit/{id}")
 	    public String aggiornaCommento(@PathVariable("id") Long id,
 	                                   @RequestParam("testo") String nuovoTesto,

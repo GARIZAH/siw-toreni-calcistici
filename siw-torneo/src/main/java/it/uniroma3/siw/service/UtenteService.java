@@ -22,5 +22,8 @@ public class UtenteService {
 	public Utente saveUtente(Utente utente) {
 		return this.utenteRepository.save(utente);
 	}
-	
+	@Transactional(readOnly = true)
+	public boolean existsByEmail(String email) {
+		return this.utenteRepository.findByEmail(email).isPresent();
+	}
 }

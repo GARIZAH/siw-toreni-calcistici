@@ -18,9 +18,9 @@ public class Commento {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
-	 @NotBlank(message = "Il testo del commento è obbligatorio")
-	    @Size(min = 1, max = 1000, message = "Il commento non può superare 1000 caratteri")
-	    @Column(nullable = false, length = 1000)
+	 @NotBlank
+	    @Size(min = 1, max = 500)
+	    @Column(nullable = false, length = 500)
 	    private String testo;
 	 
 	private LocalDateTime dataOra;

@@ -20,7 +20,7 @@ public class ArbitroController {
     	this.arbitroService=arbitroService;
     }
 
-    // 1. Mostra la lista di tutti gli arbitri (Accessibile a tutti)
+    //MOSTRA LISTA ARBITRI
     @GetMapping("/arbitri")
     public String list(Model model) {
         model.addAttribute("arbitri", this.arbitroService.findAll());

@@ -1,48 +1,176 @@
 <!DOCTYPE html>
-<html >
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Home - Tornei SIW</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tornei SIW — Il campo è aperto</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            background: #f8fafc;
+            color: #0f172a;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.5;
+        }
+        nav {
+            background: #0f172a;
+            color: #ffffff;
+            padding: 16px 24px;
+            font-size: 0.88rem;
+        }
+        nav > div {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav a.login {
+            color: #ffffff;
+            background: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 6px;
+        }
+        nav .user-box { display: flex; align-items: center; gap: 12px; }
+        nav .role-badge {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #cbd5e1;
+        }
+        nav button {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #ffffff;
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        nav .admin-link { color: #cbd5e1; text-decoration: none; margin-left: 8px; font-weight: 500; }
+        nav .admin-link:hover { color: #ffffff; }
+
+        .hero {
+            background: radial-gradient(100% 100% at 50% 0%, #1e293b 0%, #0f172a 100%);
+            color: #ffffff;
+            padding: 72px 24px 80px;
+            text-align: center;
+        }
+        .hero span { color: #60a5fa; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+        .hero h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); margin: 12px 0 0; font-weight: 800; letter-spacing: -0.03em; }
+        .hero p { font-size: 1.1rem; max-width: 52ch; color: #94a3b8; margin: 18px auto 0; }
+        .hero div { margin-top: 32px; display: flex; gap: 14px; justify-content: center; align-items: center; }
+        .hero .btn { background: #2563eb; color: #ffffff; font-weight: 600; text-decoration: none; padding: 12px 24px; border-radius: 8px; }
+        .hero .sec-link { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+        .hero .sec-link:hover { color: #ffffff; }
+
+        .content { max-width: 1000px; margin: 0 auto; padding: 64px 24px; }
+        .steps-section h2 { font-size: 1.4rem; margin: 0 0 4px; font-weight: 800; }
+        .steps-section p { color: #64748b; margin: 0 0 32px; font-size: 0.95rem; }
+        .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .step-card { background: #ffffff; border: 1px solid #e2e8f0; padding: 24px; border-radius: 12px; }
+        .step-card strong { color: #2563eb; font-size: 1.3rem; font-weight: 800; display: block; margin-bottom: 8px; }
+        .step-card h3 { font-size: 1.05rem; margin: 0 0 6px; font-weight: 700; }
+        .step-card p { margin: 0; font-size: 0.9rem; color: #64748b; }
+
+        .tornei-section { margin-top: 80px; }
+        .tornei-header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 24px; }
+        .tornei-header h2 { font-size: 1.4rem; margin: 0; font-weight: 800; }
+        .tornei-header a { font-size: 0.88rem; text-decoration: none; color: #2563eb; font-weight: 600; }
+        
+        .tornei-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+        .torneo-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; text-decoration: none; color: inherit; transition: all 0.15s; }
+        .torneo-card:hover { border-color: #2563eb; transform: translateY(-2px); }
+        .torneo-card span { color: #2563eb; font-size: 0.75rem; font-weight: 700; }
+        .torneo-card h3 { font-size: 1.15rem; margin: 4px 0 0; font-weight: 700; }
+        .torneo-card p { font-size: 0.9rem; color: #64748b; margin: 8px 0 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        
+        .empty-box { border: 1px dashed #e2e8f0; border-radius: 12px; padding: 40px 24px; text-align: center; color: #64748b; background: #ffffff; }
+
+        @media (max-width: 640px) { .steps-grid { grid-template-columns: 1fr; } }
+    </style>
 </head>
 <body>
-	<div style="background: #f1f3f5; padding: 10px 20px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-	    
-	    <div sec:authorize="isAnonymous()">
-	        <span>👋 Benvenuto! Non sei ancora loggato.</span>
-	        <a th:href="@{/login}" style="margin-left: 15px; font-weight: bold; color: #2980b9; text-decoration: none;">🔐 Accedi</a>
-	    </div>
 
-	    <div sec:authorize="isAuthenticated()" style="display: flex; align-items: center; gap: 15px; width: 100%;">
-	        <span>
-	            👤 Loggato come: <strong sec:authentication="name" style="color: #2c3e50;">Username</strong> 
-	            (<span sec:authentication="principal.authorities" style="color: #7f8c8d; font-size: 0.9em;">RUOLO</span>)
-	        </span>
-	        
-	        <form th:action="@{/logout}" method="POST" style="margin-left: auto;">
-	            <button type="submit" style="background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: background 0.2s;">
-	                🚪 Esci (Logout)
-	            </button>
-	        </form>
-	    </div>
-	    
-	</div>
+    <nav>
+        <div>
+            <div sec:authorize="isAnonymous()">
+                <span>Non hai ancora effettuato l'accesso.</span>
+                <a class="login" th:href="@{/login}">Accedi →</a>
+            </div>
 
-    <h1>Benvenuto nel Sistema Tornei</h1>
+            <div sec:authorize="isAuthenticated()" class="user-box" style="width: 100%; justify-content: space-between;">
+                <div>
+                    <span>Ciao, <strong sec:authentication="name">Username</strong></span>
+                    <span class="role-badge" sec:authentication="principal.authorities">RUOLO</span>
+                    <a class="admin-link" sec:authorize="hasAuthority('ADMIN')" th:href="@{/admin}">Pannello Admin</a>
+                </div>
+                <form th:action="@{/logout}" method="POST">
+                    <button type="submit">Esci</button>
+                </form>
+            </div>
+        </div>
+    </nav>
 
-    <div>
-        <h2>Esplora</h2>
-        <a th:href="@{/tornei}">🏆 Guarda i Tornei</a> | 
-        
-    </div>
+    <section class="hero">
+        <span>Sistema Tornei SIW</span>
+        <h1>Il campo è aperto.</h1>
+        <p>Segui i campionati, controlla calendario e classifiche, scopri chi segna. Tutto in un unico posto, aggiornato partita dopo partita.</p>
+        <div>
+            <a class="btn" th:href="@{/tornei}">Guarda i Tornei</a>
+            <a class="sec-link" sec:authorize="isAnonymous()" th:href="@{/login}">Accedi per commentare</a>
+        </div>
+    </section>
 
-    <br /><br />
+    <div class="content">
+        <section class="steps-section">
+            <h2>Come funziona</h2>
+            <p>Tre passi per iniziare a seguire un torneo.</p>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <strong>01</strong>
+                    <h3>Accedi</h3>
+                    <p>Registrati o effettua il login: puoi anche solo guardare, senza account.</p>
+                </div>
+                <div class="step-card">
+                    <strong>02</strong>
+                    <h3>Sfoglia i tornei</h3>
+                    <p>Scegli un campionato e consulta squadre, calendario e e match in programma.</p>
+                </div>
+                <div class="step-card">
+                    <strong>03</strong>
+                    <h3>Segui la classifica</h3>
+                    <p>Controlla i risultati aggiornati e commenta le partite già giocate.</p>
+                </div>
+            </div>
+        </section>
 
-    <div sec:authorize="hasAuthority('ADMIN')" style="padding: 15px; border: 2px dashed red; background-color: #fff5f5;">
-        <h2>🛠️ Pannello di Controllo Amministratore</h2>
-        <p>Opzioni di gestione protette:</p>
-        <ul>
-            <li><a th:href="@{/admin/tornei/new}">➕ Inserisci un nuovo Torneo</a></li>
-            <li><a th:href="@{/admin/squadre/new}">➕ Inserisci una nuova Squadra</a></li>
-        </ul>
+        <section class="tornei-section">
+            <div class="tornei-header">
+                <h2>Tornei in corso</h2>
+                <a th:href="@{/tornei}">Vedi tutti →</a>
+            </div>
+
+            <div th:if="${#lists.isEmpty(tornei)}" class="empty-box">
+                Non ci sono ancora tornei registrati.
+                <span sec:authorize="hasAuthority('ADMIN')">Puoi crearne uno dal <a th:href="@{/admin}" style="color:#2563eb; font-weight:600; text-decoration:none;">pannello admin</a>.</span>
+            </div>
+
+            <div class="tornei-grid" th:unless="${#lists.isEmpty(tornei)}">
+                <a class="torneo-card" th:each="torneo : ${tornei}" th:href="@{/tornei/{id}(id=${torneo.id})}">
+                    <span th:text="${'EDIZIONE ' + torneo.anno}">EDIZIONE 2026</span>
+                    <h3 th:text="${torneo.nome}">Nome Torneo</h3>
+                    <p th:if="${torneo.descrizione}" th:text="${torneo.descrizione}">Descrizione del torneo...</p>
+                </a>
+            </div>
+        </section>
     </div>
 
 </body>
