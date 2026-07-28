@@ -20,7 +20,7 @@ public class ArbitroController {
     	this.arbitroService=arbitroService;
     }
 
-    //MOSTRA LISTA ARBITRI
+    
     @GetMapping("/arbitri")
     public String list(Model model) {
         model.addAttribute("arbitri", this.arbitroService.findAll());

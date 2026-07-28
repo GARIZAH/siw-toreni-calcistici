@@ -32,15 +32,13 @@ public class SquadraController {
 	public String getDettaglioSquadraDaTorneo(@PathVariable("torneoId") Long torneoId, 
 	                                          @PathVariable("squadraId") Long squadraId, 
 	                                          Model model) {
-	    // 1. Recuperiamo la squadra e lo specifico torneo dal database
+	   
 	    Squadra squadra = this.squadraService.findById(squadraId);
 	    Torneo torneo = this.torneoService.findById(torneoId);
-	    
-	    // 2. Passiamo ENTRAMBI gli oggetti a Thymeleaf
+	 
 	    model.addAttribute("squadra", squadra);
-	    model.addAttribute("torneo", torneo); // 🔥 Questo eviterà l'errore "Property 'id' cannot be found on null"
+	    model.addAttribute("torneo", torneo); 
 	    
-	    // 3. Ritorniamo la pagina dei dettagli che andava in crash
 	    return "squadre/dettaglioSquadra";
 	}	
 	@GetMapping("/admin/squadre/{torneoId}/new")
@@ -77,8 +75,7 @@ public class SquadraController {
 	    return "admin/formModificaSquadra";
 	}
 
-    // 4. Salva le modifiche apportate alla squadra
-    // Nota: Se l'oggetto squadra ha già un ID compilato, l'operazione .save() di JPA farà un UPDATE automatico invece di un INSERT!
+    // 4. Salva le modifiche 
 	@PostMapping("/admin/tornei/{torneoId}/squadre/{squadraId}/edit")
 	public String aggiornaSquadra(@PathVariable("torneoId") Long torneoId,
 	                              @PathVariable("squadraId") Long squadraId,
@@ -90,10 +87,10 @@ public class SquadraController {
 	        return "admin/formModificaSquadra";
 	    }
 	    
-	    // Salvataggio semplice e diretto
+	    
 	    this.squadraService.save(squadra); 
 	    
-	    // Redirect pulito: torniamo al dettaglio di QUELLA squadra in QUEL torneo
+	   
 	    return "redirect:/tornei/" + torneoId + "/squadre/" + squadraId;
 	}
  
@@ -101,14 +98,13 @@ public class SquadraController {
     public String deleteSquadra(@PathVariable("torneoId") Long torneoId, 
                                 @PathVariable("squadraId") Long squadraId) {
 
-        // 2. Recuperiamo lo specifico torneo e la specifica squadra
+     
         Torneo torneo = this.torneoService.findById(torneoId);
         Squadra squadra = this.squadraService.findById(squadraId);
 
-            // 3. 🔥 RIMUOVIAMO LA SQUADRA SOLO DA QUESTO TORNEO
-            // Essendo Torneo il proprietario, la togliamo dalla sua lista.
+        
             torneo.getSquadre().remove(squadra);
-            // 4. Salviamo il torneo: Hibernate cancellerà SOLO la riga di collegamento nella tabella di mezzo
+            
             this.torneoService.save(torneo);
             return "redirect:/tornei/" + torneoId;
     }

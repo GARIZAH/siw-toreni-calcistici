@@ -46,7 +46,7 @@ public class CommentoController {
 
 	   
 
-	    // POST MODIFICA PROPRIO COMMENTO 
+	   
 	    @PostMapping("/registrato/commenti/edit/{id}")
 	    public String aggiornaCommento(@PathVariable("id") Long id,
 	                                   @RequestParam("testo") String nuovoTesto,
@@ -55,7 +55,7 @@ public class CommentoController {
 	        Commento commento = this.commentoService.findById(id);
 	        Credentials credentials = this.credentialsService.getCredentials(userDetails.getUsername());
 
-	        // Altro controllo di sicurezza prima di salvare su DB
+	        // controllo di sicurezza prima di salvare su DB
 	        if (!commento.getUtente().getId().equals(credentials.getUtente().getId())) {
 	            return "redirect:/partite/" + commento.getPartita().getId() + "?errore=non_autorizzato";
 	        }
@@ -63,7 +63,7 @@ public class CommentoController {
 	        commento.setTesto(nuovoTesto);
 	        this.commentoService.save(commento);
 
-	        // Ritorna alla partita originaria
+	       
 	        return "redirect:/partite/" + commento.getPartita().getId();
 	    }
 }

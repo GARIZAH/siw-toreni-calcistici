@@ -38,9 +38,9 @@ public class GiocatoreController {
 	                              BindingResult bindingResult, Model model) {
 	    Squadra squadra = this.squadraService.findById(id);
 	    if (bindingResult.hasErrors()) {
-	        model.addAttribute("squadra", squadra);              // ✅ aggiunto
-	        model.addAttribute("torneo", squadra.getTorneos().get(0)); // ✅ aggiunto
-	        model.addAttribute("ruoli", GiocatoreRuolo.values()); // ✅ serve anche questo per la <select>
+	        model.addAttribute("squadra", squadra);              
+	        model.addAttribute("torneo", squadra.getTorneos().get(0)); 
+	        model.addAttribute("ruoli", GiocatoreRuolo.values()); 
 	        return "admin/formNuovoGiocatore";
 	    }
 	    giocatore.setId(null);
@@ -65,7 +65,7 @@ public class GiocatoreController {
 			BindingResult bindingResult) {
 		Giocatore giocatoreOriginale=this.giocatoreService.findById(id);
 		if (bindingResult.hasErrors()) {
-			giocatoreModificato.setId(id); // <-- FIX: senza questo l'id è null e il template va in errore
+			giocatoreModificato.setId(id);
 	        model.addAttribute("squadra", giocatoreOriginale.getSquadra());
 	        model.addAttribute("ruoli", GiocatoreRuolo.values());
 	        return "admin/formModificaGiocatore";
@@ -89,13 +89,13 @@ public class GiocatoreController {
 	    }
 		Long squadraId = giocatore.getSquadra().getId();
 	    
-	    // 2. Recuperiamo l'ID del primo torneo associato a questa squadra
+	    // prendiamo ID del primo torneo associato a questa squadra
 	    Long torneoId = giocatore.getSquadra().getTorneos().get(0).getId();
 	    
-	    // 3. Eliminiamo il giocatore dal database
+	  
 	    this.giocatoreService.deleteById(id);
 	    
-	    // 4. Redirect perfetto all'URL con il torneo!
+	   
 	    return "redirect:/tornei/" + torneoId + "/squadre/" + squadraId;
 	}
 			

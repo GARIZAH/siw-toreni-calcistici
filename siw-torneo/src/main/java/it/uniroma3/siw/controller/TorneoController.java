@@ -63,39 +63,11 @@ public class TorneoController {
 
 	}
 
+
 	@GetMapping("/tornei/{id}/classifica")
 	public String classifica(@PathVariable("id") Long id, Model model) {
 		Torneo torneo = this.torneoService.findById(id);
-		List<Classifica> classifica = new ArrayList<>();
-		// Per ogni squadra del torneo calcoliamo le statistiche
-		for (Squadra s : torneo.getSquadre()) {
-			Classifica riga = new Classifica(s);
-
-			// 1. Controlliamo le partite giocate in casa
-			if (s.getPartiteHome() != null) {
-				for (Partita p : s.getPartiteHome()) {
-					// Calcoliamo i punti solo se la partita è terminata ed appartiene a questo
-					// torneo
-					if (p.getTorneo().equals(torneo) && p.getGoalsHome() != null && p.getGoalsAway() != null) {
-						riga.aggiungiRisultato(p.getGoalsHome(), p.getGoalsAway());
-					}
-				}
-			}
-
-			// 2. Controlliamo le partite giocate in trasferta
-			if (s.getPartiteAway() != null) {
-				for (Partita p : s.getPartiteAway()) {
-					if (p.getTorneo().equals(torneo) && p.getGoalsAway() != null && p.getGoalsHome() != null) {
-						riga.aggiungiRisultato(p.getGoalsAway(), p.getGoalsHome());
-					}
-				}
-			}
-
-			classifica.add(riga);
-		}
-
-		// Ordiniamo la classifica per punti in ordine decrescente
-		classifica.sort((s1, s2) -> Integer.compare(s2.getPunti(), s1.getPunti()));
+		List<Classifica> classifica = this.torneoService.calcolaClassifica(id);
 
 		model.addAttribute("torneo", torneo);
 		model.addAttribute("classifica", classifica);
@@ -121,7 +93,7 @@ public class TorneoController {
 	    torneoEsistente.setNome(torneoForm.getNome());
 	    torneoEsistente.setAnno(torneoForm.getAnno());
 	    torneoEsistente.setDescrizione(torneoForm.getDescrizione());
-	    // NON tocchiamo squadre/partite: restano quelle già caricate da JPA
+	    
 	    this.torneoService.save(torneoEsistente);
 	    return "redirect:/tornei/" + id;
 	}
@@ -143,17 +115,15 @@ public class TorneoController {
 	public String deleteTorneo(@PathVariable("id") Long id) {
 
 		Torneo torneo = this.torneoService.findById(id);
-	        // 2. 🔥 PULIZIA DEI VINCOLI: Svuotiamo la lista delle squadre iscritte 
-	        // per rimuovere in sicurezza le righe dalla tabella di giunzione (torneo_squadre)
+	        
 	        torneo.getSquadre().clear();
 	        this.torneoService.save(torneo);
 	        
-	        // 3. CANCELLAZIONE: Ora che i vincoli sono sciolti, eliminiamo il torneo.
-	        // Nota: Le sue partite verranno cancellate a cascata se hai messo cascade=CascadeType.ALL o REMOVE su "partite"
+	        
 	        this.torneoService.deleteById(id);
 	    
 
-	    // 4. 🔥 RECOUPERATO IL RETURN: Reindirizziamo l'utente alla lista dei tornei aggiornata
+	    
 	    return "redirect:/tornei";
 	}
 	

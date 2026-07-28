@@ -1,6 +1,6 @@
 package it.uniroma3.siw.model;
 
-import java.time.LocalDateTime;
+
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -23,11 +23,6 @@ public class Commento {
 	    @Column(nullable = false, length = 500)
 	    private String testo;
 	 
-	private LocalDateTime dataOra;
-	/*@Column(nullable = false)
-    private LocalDateTime dataCreazione = LocalDateTime.now();
- 
-    private LocalDateTime dataModifica;*/
 	
 	
 	
@@ -50,12 +45,7 @@ public class Commento {
 	public void setTesto(String testo) {
 		this.testo = testo;
 	}
-	public LocalDateTime getDataOra() {
-		return dataOra;
-	}
-	public void setDataOra(LocalDateTime dataOra) {
-		this.dataOra = dataOra;
-	}
+	
 	public Utente getUtente() {
 		return utente;
 	}

@@ -119,7 +119,7 @@ INSERT INTO arbitro (id, nome, cognome, codice_arbitrale) VALUES (1008, 'Davide'
 -- =========================================================================
 -- 6. INSERIMENTO PARTITE
 -- =========================================================================
--- Partite "Torneo Estivo Roma" (15 PLAYED + 3 SCHEDULED)
+-- Partite "Torneo Estivo Roma" 
 INSERT INTO partita (id, data_ora, luogo, goals_home, goals_away, stato, torneo_id, squadra_home_id, squadra_away_id, arbitro_id) VALUES (nextval('partita_seq'), '2026-06-01 20:30:00', 'Campo Pro Roma', 3, 1, 'PLAYED', (SELECT id FROM torneo WHERE nome = 'Torneo Estivo Roma' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'GLI SPORCHI' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Los Puercos' LIMIT 1), (SELECT id FROM arbitro WHERE codice_arbitrale = 'ARB-001' LIMIT 1));
 INSERT INTO partita (id, data_ora, luogo, goals_home, goals_away, stato, torneo_id, squadra_home_id, squadra_away_id, arbitro_id) VALUES (nextval('partita_seq'), '2026-06-02 21:00:00', 'Ostia Beach Arena', 2, 2, 'PLAYED', (SELECT id FROM torneo WHERE nome = 'Torneo Estivo Roma' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Real Madrink' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Atletico Birra' LIMIT 1), (SELECT id FROM arbitro WHERE codice_arbitrale = 'ARB-002' LIMIT 1));
 INSERT INTO partita (id, data_ora, luogo, goals_home, goals_away, stato, torneo_id, squadra_home_id, squadra_away_id, arbitro_id) VALUES (nextval('partita_seq'), '2026-06-03 20:00:00', 'Campo Pro Roma', 1, 4, 'PLAYED', (SELECT id FROM torneo WHERE nome = 'Torneo Estivo Roma' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'FC Carbonara' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Sporting Trastevere' LIMIT 1), (SELECT id FROM arbitro WHERE codice_arbitrale = 'ARB-003' LIMIT 1));
@@ -169,23 +169,23 @@ INSERT INTO giocatore (id, nome, cognome, data_di_nascita, ruolo, squadra_id) VA
 INSERT INTO giocatore (id, nome, cognome, data_di_nascita, ruolo, squadra_id) VALUES (nextval('giocatore_seq'), 'Gennaro', 'Gattuso', '1978-01-09', 'Centrocampista', (SELECT id FROM squadra WHERE nome = 'Real Madrink' LIMIT 1));
 
 -- =========================================================================
--- 8. SQUADRE AGGIUNTIVE PER I TORNEI CON MENO DI 10 SQUADRE
+-- 8. SQUADRE AGGIUNTIVE 
 -- =========================================================================
--- Coppa dei Campioni SIW: 4 + 6 = 10 squadre
+-- Coppa dei Campioni SIW:10 squadre
 INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squadra WHERE nome = 'Atletico Birra' LIMIT 1), (SELECT id FROM torneo WHERE nome = 'Coppa dei Campioni SIW' LIMIT 1));
 INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squadra WHERE nome = 'FC Carbonara' LIMIT 1), (SELECT id FROM torneo WHERE nome = 'Coppa dei Campioni SIW' LIMIT 1));
 INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squadra WHERE nome = 'Sporting Trastevere' LIMIT 1), (SELECT id FROM torneo WHERE nome = 'Coppa dei Campioni SIW' LIMIT 1));
 INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squadra WHERE nome = 'Dinamo Tiburtina' LIMIT 1), (SELECT id FROM torneo WHERE nome = 'Coppa dei Campioni SIW' LIMIT 1));
 INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squadra WHERE nome = 'FC Colosseo' LIMIT 1), (SELECT id FROM torneo WHERE nome = 'Coppa dei Campioni SIW' LIMIT 1));
 INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squadra WHERE nome = 'Borgata United' LIMIT 1), (SELECT id FROM torneo WHERE nome = 'Coppa dei Campioni SIW' LIMIT 1));
--- Winter League Roma: 4 + 6 = 10 squadre
+-- Winter League Roma: 10 squadre
 INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squadra WHERE nome = 'Spartak Garbatella' LIMIT 1), (SELECT id FROM torneo WHERE nome = 'Winter League Roma' LIMIT 1));
 INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squadra WHERE nome = 'Virtus Monti' LIMIT 1), (SELECT id FROM torneo WHERE nome = 'Winter League Roma' LIMIT 1));
 INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squadra WHERE nome = 'AS Testaccio' LIMIT 1), (SELECT id FROM torneo WHERE nome = 'Winter League Roma' LIMIT 1));
 INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squadra WHERE nome = 'FC Prati' LIMIT 1), (SELECT id FROM torneo WHERE nome = 'Winter League Roma' LIMIT 1));
 INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squadra WHERE nome = 'Ostia City' LIMIT 1), (SELECT id FROM torneo WHERE nome = 'Winter League Roma' LIMIT 1));
 INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squadra WHERE nome = 'San Lorenzo FC' LIMIT 1), (SELECT id FROM torneo WHERE nome = 'Winter League Roma' LIMIT 1));
--- Champions Night: 3 + 7 = 10 squadre
+-- Champions Night:  10 squadre
 INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squadra WHERE nome = 'Pigneto Calcio' LIMIT 1), (SELECT id FROM torneo WHERE nome = 'Champions Night' LIMIT 1));
 INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squadra WHERE nome = 'Borussia Parione' LIMIT 1), (SELECT id FROM torneo WHERE nome = 'Champions Night' LIMIT 1));
 INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squadra WHERE nome = 'Inter Ardea' LIMIT 1), (SELECT id FROM torneo WHERE nome = 'Champions Night' LIMIT 1));
@@ -193,7 +193,7 @@ INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squad
 INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squadra WHERE nome = 'Bayern Trullo' LIMIT 1), (SELECT id FROM torneo WHERE nome = 'Champions Night' LIMIT 1));
 INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squadra WHERE nome = 'Paris Saint-Centocelle' LIMIT 1), (SELECT id FROM torneo WHERE nome = 'Champions Night' LIMIT 1));
 INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squadra WHERE nome = 'Chelsea Flaminio' LIMIT 1), (SELECT id FROM torneo WHERE nome = 'Champions Night' LIMIT 1));
--- Spring Cup: 3 + 7 = 10 squadre
+-- Spring Cup: 10 squadre
 INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squadra WHERE nome = 'Borussia Parione' LIMIT 1), (SELECT id FROM torneo WHERE nome = 'Spring Cup' LIMIT 1));
 INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squadra WHERE nome = 'Inter Ardea' LIMIT 1), (SELECT id FROM torneo WHERE nome = 'Spring Cup' LIMIT 1));
 INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squadra WHERE nome = 'Juventus Cassia' LIMIT 1), (SELECT id FROM torneo WHERE nome = 'Spring Cup' LIMIT 1));
@@ -203,7 +203,7 @@ INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squad
 INSERT INTO squadra_torneo (squadra_id, torneo_id) VALUES ((SELECT id FROM squadra WHERE nome = 'Arsenal Aurelio' LIMIT 1), (SELECT id FROM torneo WHERE nome = 'Spring Cup' LIMIT 1));
 
 -- =========================================================================
--- 9. GIOCATORI AGGIUNTIVI (almeno 11 per ogni squadra)
+-- 9. GIOCATORI AGGIUNTIVI 
 -- =========================================================================
 INSERT INTO giocatore (id, nome, cognome, data_di_nascita, ruolo, squadra_id) VALUES (nextval('giocatore_seq'), 'Francesco', 'Russo', '1998-04-08', 'Portiere', (SELECT id FROM squadra WHERE nome = 'GLI SPORCHI' LIMIT 1));
 INSERT INTO giocatore (id, nome, cognome, data_di_nascita, ruolo, squadra_id) VALUES (nextval('giocatore_seq'), 'Lorenzo', 'Colombo', '1992-10-14', 'Difensore', (SELECT id FROM squadra WHERE nome = 'GLI SPORCHI' LIMIT 1));
@@ -529,9 +529,9 @@ INSERT INTO giocatore (id, nome, cognome, data_di_nascita, ruolo, squadra_id) VA
 INSERT INTO giocatore (id, nome, cognome, data_di_nascita, ruolo, squadra_id) VALUES (nextval('giocatore_seq'), 'Michele', 'Farina', '1991-11-21', 'Attaccante', (SELECT id FROM squadra WHERE nome = 'Rangers Roma' LIMIT 1));
 
 -- =========================================================================
--- 10. PARTITE AGGIUNTIVE (almeno 10 per torneo, tranne Torneo Estivo Roma che ne ha gia' 18)
+-- 10. PARTITE AGGIUNTIVE 
 -- =========================================================================
--- Coppa dei Campioni SIW: nuove partite per arrivare a 10 totali
+-- Coppa dei Campioni SIW:  partite 10 totali
 INSERT INTO partita (id, data_ora, luogo, goals_home, goals_away, stato, torneo_id, squadra_home_id, squadra_away_id, arbitro_id) VALUES (nextval('partita_seq'), '2026-11-29 20:00:00', 'Ostia Beach Arena', 2, 4, 'PLAYED', (SELECT id FROM torneo WHERE nome = 'Coppa dei Campioni SIW' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'FC Carbonara' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Los Puercos' LIMIT 1), (SELECT id FROM arbitro WHERE codice_arbitrale = 'ARB-001' LIMIT 1));
 INSERT INTO partita (id, data_ora, luogo, goals_home, goals_away, stato, torneo_id, squadra_home_id, squadra_away_id, arbitro_id) VALUES (nextval('partita_seq'), '2026-12-02 21:45:00', 'Campo Pro Roma', 0, 1, 'PLAYED', (SELECT id FROM torneo WHERE nome = 'Coppa dei Campioni SIW' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'FC Colosseo' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Real Madrink' LIMIT 1), (SELECT id FROM arbitro WHERE codice_arbitrale = 'ARB-002' LIMIT 1));
 INSERT INTO partita (id, data_ora, luogo, goals_home, goals_away, stato, torneo_id, squadra_home_id, squadra_away_id, arbitro_id) VALUES (nextval('partita_seq'), '2026-12-05 20:00:00', 'Campo Pro Roma', 4, 4, 'PLAYED', (SELECT id FROM torneo WHERE nome = 'Coppa dei Campioni SIW' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'FC Colosseo' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Sporting Trastevere' LIMIT 1), (SELECT id FROM arbitro WHERE codice_arbitrale = 'ARB-002' LIMIT 1));
@@ -550,7 +550,7 @@ INSERT INTO partita (id, data_ora, luogo, goals_home, goals_away, stato, torneo_
 INSERT INTO partita (id, data_ora, luogo, goals_home, goals_away, stato, torneo_id, squadra_home_id, squadra_away_id, arbitro_id) VALUES (nextval('partita_seq'), '2027-01-03 22:30:00', 'Ostia Beach Arena', 1, 3, 'PLAYED', (SELECT id FROM torneo WHERE nome = 'Winter League Roma' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Atletico Birra' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'FC Carbonara' LIMIT 1), (SELECT id FROM arbitro WHERE codice_arbitrale = 'ARB-007' LIMIT 1));
 INSERT INTO partita (id, data_ora, luogo, goals_home, goals_away, stato, torneo_id, squadra_home_id, squadra_away_id, arbitro_id) VALUES (nextval('partita_seq'), '2027-01-08 20:15:00', 'Campo Pro Roma', NULL, NULL, 'SCHEDULED', (SELECT id FROM torneo WHERE nome = 'Winter League Roma' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'AS Testaccio' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Dinamo Tiburtina' LIMIT 1), (SELECT id FROM arbitro WHERE codice_arbitrale = 'ARB-002' LIMIT 1));
 
--- Champions Night: nuove partite per arrivare a 10 totali
+-- Champions Night: partite 10 totali
 INSERT INTO partita (id, data_ora, luogo, goals_home, goals_away, stato, torneo_id, squadra_home_id, squadra_away_id, arbitro_id) VALUES (nextval('partita_seq'), '2026-10-20 21:30:00', 'Ostia Beach Arena', 0, 1, 'PLAYED', (SELECT id FROM torneo WHERE nome = 'Champions Night' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Pigneto Calcio' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Spartak Garbatella' LIMIT 1), (SELECT id FROM arbitro WHERE codice_arbitrale = 'ARB-003' LIMIT 1));
 INSERT INTO partita (id, data_ora, luogo, goals_home, goals_away, stato, torneo_id, squadra_home_id, squadra_away_id, arbitro_id) VALUES (nextval('partita_seq'), '2026-10-26 20:00:00', 'Pala Green', 3, 4, 'PLAYED', (SELECT id FROM torneo WHERE nome = 'Champions Night' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Paris Saint-Centocelle' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Inter Ardea' LIMIT 1), (SELECT id FROM arbitro WHERE codice_arbitrale = 'ARB-006' LIMIT 1));
 INSERT INTO partita (id, data_ora, luogo, goals_home, goals_away, stato, torneo_id, squadra_home_id, squadra_away_id, arbitro_id) VALUES (nextval('partita_seq'), '2026-11-01 21:45:00', 'Ostia Beach Arena', 0, 1, 'PLAYED', (SELECT id FROM torneo WHERE nome = 'Champions Night' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Juventus Cassia' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Chelsea Flaminio' LIMIT 1), (SELECT id FROM arbitro WHERE codice_arbitrale = 'ARB-002' LIMIT 1));
@@ -560,7 +560,7 @@ INSERT INTO partita (id, data_ora, luogo, goals_home, goals_away, stato, torneo_
 INSERT INTO partita (id, data_ora, luogo, goals_home, goals_away, stato, torneo_id, squadra_home_id, squadra_away_id, arbitro_id) VALUES (nextval('partita_seq'), '2026-11-18 20:00:00', 'Ostia Beach Arena', 2, 2, 'PLAYED', (SELECT id FROM torneo WHERE nome = 'Champions Night' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Bayern Trullo' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Chelsea Flaminio' LIMIT 1), (SELECT id FROM arbitro WHERE codice_arbitrale = 'ARB-002' LIMIT 1));
 INSERT INTO partita (id, data_ora, luogo, goals_home, goals_away, stato, torneo_id, squadra_home_id, squadra_away_id, arbitro_id) VALUES (nextval('partita_seq'), '2026-11-24 22:30:00', 'Campo Pro Roma', NULL, NULL, 'SCHEDULED', (SELECT id FROM torneo WHERE nome = 'Champions Night' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'AS Testaccio' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Paris Saint-Centocelle' LIMIT 1), (SELECT id FROM arbitro WHERE codice_arbitrale = 'ARB-004' LIMIT 1));
 
--- Spring Cup: nuove partite per arrivare a 10 totali
+-- Spring Cup:  partite  10 totali
 INSERT INTO partita (id, data_ora, luogo, goals_home, goals_away, stato, torneo_id, squadra_home_id, squadra_away_id, arbitro_id) VALUES (nextval('partita_seq'), '2027-04-25 22:00:00', 'Pala Green', 2, 4, 'PLAYED', (SELECT id FROM torneo WHERE nome = 'Spring Cup' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Chelsea Flaminio' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Ostia City' LIMIT 1), (SELECT id FROM arbitro WHERE codice_arbitrale = 'ARB-005' LIMIT 1));
 INSERT INTO partita (id, data_ora, luogo, goals_home, goals_away, stato, torneo_id, squadra_home_id, squadra_away_id, arbitro_id) VALUES (nextval('partita_seq'), '2027-04-30 22:15:00', 'Campo Pro Roma', 4, 1, 'PLAYED', (SELECT id FROM torneo WHERE nome = 'Spring Cup' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Pigneto Calcio' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Juventus Cassia' LIMIT 1), (SELECT id FROM arbitro WHERE codice_arbitrale = 'ARB-006' LIMIT 1));
 INSERT INTO partita (id, data_ora, luogo, goals_home, goals_away, stato, torneo_id, squadra_home_id, squadra_away_id, arbitro_id) VALUES (nextval('partita_seq'), '2027-05-04 21:00:00', 'Campo Pro Roma', 0, 2, 'PLAYED', (SELECT id FROM torneo WHERE nome = 'Spring Cup' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Bayern Trullo' LIMIT 1), (SELECT id FROM squadra WHERE nome = 'Borussia Parione' LIMIT 1), (SELECT id FROM arbitro WHERE codice_arbitrale = 'ARB-008' LIMIT 1));

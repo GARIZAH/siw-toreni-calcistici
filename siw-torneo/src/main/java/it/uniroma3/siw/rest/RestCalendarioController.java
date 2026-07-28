@@ -23,7 +23,7 @@ public class RestCalendarioController {
         this.torneoService = torneoService;
     }
  
-    // GET /rest/tornei/{id}/calendario  →  lista partite del torneo
+   
     @GetMapping("/{id}/calendario")
     public ResponseEntity<List<Partita>> calendario(@PathVariable Long id) {
         return torneoService.findById(id) != null

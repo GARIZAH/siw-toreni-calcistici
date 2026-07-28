@@ -53,7 +53,7 @@ public class Torneo {
     )
     private List<Squadra> squadre = new ArrayList<>();
  
-    // Relazione: le partite del torneo
+    
     @OneToMany(mappedBy = "torneo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Partita> partite = new ArrayList<>();
 	

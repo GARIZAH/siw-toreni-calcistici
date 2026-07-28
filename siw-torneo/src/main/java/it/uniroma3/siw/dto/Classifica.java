@@ -14,7 +14,7 @@ public class Classifica {
         this.squadra = squadra;
     }
 
-    // aggiorno i risultati
+    
     public void aggiungiRisultato(int golFatti, int golSubiti) {
         this.giocate++;
         if (golFatti > golSubiti) {

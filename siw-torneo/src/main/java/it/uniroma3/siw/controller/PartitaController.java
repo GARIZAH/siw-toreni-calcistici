@@ -52,12 +52,12 @@ public class PartitaController {
 	    model.addAttribute("partita", partita);
 	    if (userDetails != null) {
 	        Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-	        // FONDAMENTALE: Devi passare l'utente loggato con lo stesso nome usato nell'HTML
+	       
 	        model.addAttribute("utenteLoggato", credentials.getUtente());
 	        model.addAttribute("isAdmin", Credentials.ADMIN_ROLE.equals(credentials.getRole()));
 	    }
 	    model.addAttribute("idCommentoInModifica", editCommentoId);
-	    // Non serve fare altro! I commenti sono già dentro l'oggetto partita grazie a JPA
+	    
 	    return "partite/dettaglioPartita"; 
 	}
 	//admin aggiunge partita
@@ -132,14 +132,14 @@ public class PartitaController {
 	//admin elimina partita
 	@PostMapping("/admin/partite/{id}/elimina")
 	public String eliminaPartita(@PathVariable("id") Long id) {
-	    // 1. Recuperiamo la partita prima di cancellarla per sapere a quale torneo apparteneva
+	    
 	    Partita partita = this.partitaService.findById(id);
 	    Long torneoId = partita.getTorneo().getId();
 	    
-	    // 2. Eliminiamo la partita
+	   
 	    this.partitaService.deleteById(id);
 	    
-	    // 3. 🔥 REDIRECT CORRETTO: Torna al calendario del torneo specifico
+	   
 	    return "redirect:/tornei/" + torneoId + "/calendario";
 	}
 												

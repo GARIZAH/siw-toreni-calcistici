@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import it.uniroma3.siw.model.Squadra;
 
 import it.uniroma3.siw.repository.SquadraRepository;
-import jakarta.validation.Valid;
+
 
 
 
