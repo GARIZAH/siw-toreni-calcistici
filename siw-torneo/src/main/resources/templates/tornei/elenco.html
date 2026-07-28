@@ -8,7 +8,7 @@
 				        .torneo-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
 				        .torneo-card { background: white; border: 1px solid #e1e8ed; border-radius: 8px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: relative; }
 				        
-				        /* Stile per i bottoni di gestione admin in alto nella card */
+				        /* Stile per i bottoni di gestione admin  */
 				        .admin-actions { float: right; display: flex; gap: 5px; }
 				        .btn-admin-action { padding: 4px 8px; border-radius: 4px; font-size: 0.8em; cursor: pointer; text-decoration: none; border: none; color: white; font-weight: bold;}
 				        .btn-edit { background-color: #f39c12; }
@@ -16,7 +16,7 @@
 				        .btn-delete { background-color: #e74c3c; }
 				        .btn-delete:hover { background-color: #c0392b; }
 
-				        /* Modificato il titolo per renderlo un link cliccabile al dettaglio */
+				        /*titolo  */
 				        .torneo-titolo { margin-top: 10px; font-size: 1.4em; }
 				        .torneo-titolo a { color: #2980b9; text-decoration: none; transition: color 0.2s; }
 				        .torneo-titolo a:hover { color: #1a5276; text-decoration: underline; }
@@ -60,15 +60,10 @@
 		            	<a th:href="@{/tornei/{id}(id=${torneo.id})}" th:text="${torneo.nome}">Nome Torneo</a>
 		            </h2>
 		            	
-		            <div class="info-item">
-		                <span class="info-label">Squadre Iscritte:</span> 
-		                <span th:text="${torneo.squadre != null ? torneo.squadre.size() : 0} + ' squadre'">0 squadre</span>
-		            </div>
-
-		            <div class="info-item">
-		                <span class="info-label">Partite Totali:</span> 
-		                <span th:text="${torneo.partite != null ? torneo.partite.size() : 0} + ' match'">0 match</span>
-		            </div>
+					<div class="info-item">
+						                <span class="info-label">Anno:</span> 
+						                <span th:text="${torneo.anno}">2026</span>
+						            </div>
 
 		            <div class="link-box">
 		                <a class="btn" th:href="@{'/tornei/' + ${torneo.id} + '/calendario'}">📅 Calendario</a>
